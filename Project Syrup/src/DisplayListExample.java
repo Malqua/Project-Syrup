@@ -2,12 +2,18 @@
 //import java.nio.FloatBuffer;
 
 //import org.lwjgl.BufferUtils;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
-import org.lwjgl.BufferUtils;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.Sphere;
+import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.opengl.TextureLoader;
+import org.newdawn.slick.util.ResourceLoader;
 
 public class DisplayListExample extends LwjglExampleBase
 {
@@ -40,189 +46,95 @@ public class DisplayListExample extends LwjglExampleBase
 		// Start recording the new display list.
 		GL11.glNewList(displayListHandle, GL11.GL_COMPILE);
 
-		// Render a single cube
-		//renderCube(1);
-		drawVertexArray();
+		//GL11.glTranslatef(-1f, 0, 0);
+		drawKirby();
 
 		// End the recording of the current display list.
 		GL11.glEndList();
 	}
-	public static void renderCube(float size)
-	{
-		final float HALF = size/2;
-		GL11.glBegin(GL11.GL_QUADS);
 
-		GL11.glColor3f(0, 0, 1);
-		GL11.glVertex3f(-HALF, -HALF, -HALF); 
-		GL11.glVertex3f(-HALF, size-HALF, -HALF); 
-		GL11.glVertex3f(size-HALF, size-HALF, -HALF); 
-		GL11.glVertex3f(size-HALF, -HALF, -HALF);  
-
-		GL11.glColor3f(0, 1, 1);
-		GL11.glVertex3f(-HALF, -HALF, size-HALF);  
-		GL11.glVertex3f(-HALF, size-HALF, size-HALF);  
-		GL11.glVertex3f(size-HALF, size-HALF, size-HALF); 
-		GL11.glVertex3f(size-HALF, -HALF, size-HALF);  
-
-		GL11.glColor3f(1, 0, 1);
-		GL11.glVertex3f(-HALF, size-HALF, -HALF);  
-		GL11.glVertex3f(size-HALF, size-HALF, -HALF); 
-		GL11.glVertex3f(size-HALF, size-HALF, size-HALF); 
-		GL11.glVertex3f(-HALF, size-HALF, size-HALF); 
-
-		GL11.glColor3f(1, 0, 0);
-		GL11.glVertex3f(-HALF, -HALF, -HALF);  
-		GL11.glVertex3f(size-HALF, -HALF, -HALF); 
-		GL11.glVertex3f(size-HALF, -HALF, size-HALF); 
-		GL11.glVertex3f(-HALF, -HALF, size-HALF); 
-
-		GL11.glColor3f(1, 1, 0);
-		GL11.glVertex3f(-HALF, -HALF, -HALF);  
-		GL11.glVertex3f(-HALF, size-HALF, -HALF); 
-		GL11.glVertex3f(-HALF, size-HALF, size-HALF); 
-		GL11.glVertex3f(-HALF, -HALF, size-HALF);  
-
-		GL11.glColor3f(0, 1, 0);
-		GL11.glVertex3f(size-HALF, -HALF, -HALF);  
-		GL11.glVertex3f(size-HALF, size-HALF, -HALF); 
-		GL11.glVertex3f(size-HALF, size-HALF, size-HALF); 
-		GL11.glVertex3f(size-HALF, -HALF, size-HALF); 
-
-		GL11.glEnd();
-	}
-
-	public void drawVertexArray(){
-		//create geometry buffers
-	      FloatBuffer cBuffer = BufferUtils.createFloatBuffer(24);
-	      cBuffer.put(1).put(0).put(0);
-	      cBuffer.put(0).put(1).put(0);
-	      cBuffer.put(0).put(0).put(1);
-	      cBuffer.put(1).put(0).put(0);
-	      cBuffer.put(0).put(1).put(0);
-	      cBuffer.put(0).put(0).put(1);
-	      cBuffer.put(1).put(0).put(0);
-	      cBuffer.put(0).put(1).put(0);
-	      cBuffer.flip();
-		
-	      FloatBuffer vBuffer = BufferUtils.createFloatBuffer(24);
-	      vBuffer.put(0f).put(0f).put(0f);
-	      vBuffer.put(0f).put(.4f).put(0f);
-	      vBuffer.put(.2f).put(.3f).put(0f);
-	      vBuffer.put(.2f).put(-.2f).put(0f);
-	      vBuffer.put(.1f).put(-.3f).put(0f);
-	      vBuffer.put(-.1f).put(-.2f).put(0f);
-	      vBuffer.put(-.2f).put(.2f).put(0f);
-	      vBuffer.put(0f).put(.4f).put(0f);
-	      vBuffer.flip();
+	private static float rot = 0f;
+	
+	public static void drawKirby(){
 		
 		Sphere sphere = new Sphere();
+
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GL11.glEnable(GL11.GL_TEXTURE_GEN_S);
+		//body 
+		GL11.glPushMatrix();
+			GL11.glColor3f(1.0f, 0.6f, 0.6f);
+			sphere.draw(0.45f, 10, 10);
+		GL11.glPopMatrix();
 		
-
-		GL11.glEnableClientState(GL11.GL_VERTEX_ARRAY);
-		GL11.glEnableClientState(GL11.GL_COLOR_ARRAY);
-
-
 		
+		//arms
+		GL11.glPushMatrix();
+			GL11.glTranslatef(0.45f, 0f, 0f);
+			GL11.glRotatef(45f, 0, 1, 0);
+			GL11.glScalef(1.2f, 1.0f, 0.8f);
+			sphere.draw(0.125f, 10, 10);
+		GL11.glPopMatrix();
+		
+		GL11.glPushMatrix();
+			GL11.glTranslatef(-.45f, 0f, 0f);
+			GL11.glRotatef(-45f, 0, 1, 0);
+			GL11.glScalef(1.2f, 1.0f, 0.8f);
+			sphere.draw(0.125f, 10, 10);
+		GL11.glPopMatrix();
+			
+		//feet
+		GL11.glColor3f(1f, 0.1f, 0.1f);
+		GL11.glPushMatrix();
+			GL11.glTranslatef(.2f, .1f, -.44f);
+			GL11.glRotatef(-15f, 0, 0, 1);
+			GL11.glScalef(1.0f, 1.5f, 0.5f);
+			sphere.draw(0.175f, 10, 10);
+		GL11.glPopMatrix();
+		
+		GL11.glPushMatrix();
+			GL11.glTranslatef(-.2f, .1f, -.44f);
+			GL11.glRotatef(15f, 0, 0, 1);
+			GL11.glScalef(1.0f, 1.5f, 0.5f);
+			sphere.draw(0.175f, 10, 10);
+		GL11.glPopMatrix();
 
-		float diffuse0[]={1f, 0f, 0f, 1f};
-		float ambient0[]={1f, 0f, 0f, 1f};
+	}
+	
+	public void render() 
+	{			
+		//float diffuse0[]={1f, 0f, 0f, 1f};
+		//float ambient0[]={1f, 0f, 0f, 1f};
+		
 		float specular0[]={1f, 0f, 0f, 1f};
 		float light0_pos[]={1f, 2f, 3f, 1f};
 		
-		GL11.glEnable(GL11.GL_LIGHTING);
+		ByteBuffer temp = ByteBuffer.allocateDirect(16);
+		temp.order(ByteOrder.nativeOrder());
+
 		GL11.glEnable(GL11.GL_LIGHT0);
 		GL11.glEnable(GL11.GL_COLOR_MATERIAL);
-		GL11.glLightf(GL11.GL_LIGHT0, GL11.GL_POSITION, light0_pos.length);
-		GL11.glLightf(GL11.GL_LIGHT0, GL11.GL_AMBIENT, ambient0.length);
-		GL11.glLightf(GL11.GL_LIGHT0, GL11.GL_DIFFUSE, diffuse0.length);
-		GL11.glLightf(GL11.GL_LIGHT0, GL11.GL_SPECULAR, specular0.length);
+		GL11.glEnable(GL11.GL_NORMALIZE);
+		GL11.glEnable(GL11.GL_LIGHTING);
+		
+		GL11.glLight(GL11.GL_LIGHT0, GL11.GL_POSITION, (FloatBuffer)temp.asFloatBuffer().put(light0_pos).flip());
+
+		/**
+		 * These two make shit red, don't uncomment them until you fix it. :D
+		 * Also it's not really necessary.
+		 * 
+		 * Well, Ambient would be for Lava areas and shit. 
+		 */
+		
+		//GL11.glLight(GL11.GL_LIGHT0, GL11.GL_AMBIENT, (FloatBuffer)temp.asFloatBuffer().put(ambient0).flip());
+		
+		//GL11.glLight(GL11.GL_LIGHT0, GL11.GL_DIFFUSE, (FloatBuffer)temp.asFloatBuffer().put(diffuse0).flip());
+		
+		GL11.glLight(GL11.GL_LIGHT0, GL11.GL_SPECULAR, (FloatBuffer)temp.asFloatBuffer().put(specular0).flip());
 		GL11.glColorMaterial(GL11.GL_FRONT_AND_BACK, GL11.GL_AMBIENT_AND_DIFFUSE);
 
-
-		
-		//body 
-		GL11.glColor3f(1.0f, 0.6f, 0.6f);
-		sphere.draw(0.5f, 10, 10);
-		
-		//arms
-		GL11.glTranslatef(0.5f, 0f, -0.1f);
-		sphere.draw(0.2f, 10, 10);
-		
-		GL11.glTranslatef(-1f, 0f, 0f);
-		sphere.draw(0.2f, 10, 10);
-		
-		//feet
-		
-		
-		GL11.glTranslatef(0.75f, 0f, -0.5f);
-		//sphere.draw(0.2f, 5, 3);
-		GL11.glColorPointer(3, /* stride */3 << 2, cBuffer);
-		GL11.glVertexPointer(3, /* stride */3 << 2, vBuffer);
-		GL11.glDrawArrays(GL11.GL_POLYGON, 0, /* elements */15);
-		
-		GL11.glColor3f(0.75f, 0.3f, 0.3f);
-		GL11.glTranslatef(-0.5f, 0f, 0f);
-		sphere.draw(0.2f, 5, 3);
-		
-
-		GL11.glDisable(GL11.GL_LIGHTING);
-		GL11.glDisable(GL11.GL_LIGHT0);
-		GL11.glDisable(GL11.GL_COLOR_MATERIAL);
-		
-		GL11.glDisableClientState(GL11.GL_COLOR_ARRAY);
-		GL11.glDisableClientState(GL11.GL_VERTEX_ARRAY);
-	}
-
-	/**
-	 * Render 5x5 cubes centered around the origin. Each
-	 * cubes has a slightly different rotation to make this
-	 * example look more interesting.
-	 */
-	public void render() 
-	{	
-		/*
-		// In each render pass, add one degree to rotation
-		// angle.
-		rotationAngle += 1;
-		
-		for( int x = 0; x < 5; x++ )
-		{
-			for( int z = 0; z < 5; z++ )
-			{
-				// Save current MODELVIEW matrix to 
-				// stack.
-				GL11.glPushMatrix();
-
-				// position next cube
-				GL11.glTranslatef(x*2 - 4,0, z*2 - 4);
-
-				// rotate next cube
-				//GL11.glRotatef(x*z*10+rotationAngle, 1, 1, 1);
-				
-				//x
-				GL11.glRotatef(0f, 1, 0, 0);
-				//y
-				GL11.glRotatef(0f, 0f,1f,0f);
-				//z
-				GL11.glRotatef(0f, 0f,0f,1f);
-
-				// Call the display list which renders
-				// the cube.
-				GL11.glCallList(displayListHandle);
-
-				// Remove current MODELVIEW Matrix from
-				// stack.
-				GL11.glPopMatrix();
-			}
-		}
-		
-		*/
-		
-		//rotationAngle += 1;
 		
 		GL11.glPushMatrix();
-		// rotate next cube
-		//GL11.glRotatef(rotationAngle, 1, 1, 1);
 		
 		//x
 		GL11.glRotatef(rotX, 1, 0, 0);
@@ -238,9 +150,13 @@ public class DisplayListExample extends LwjglExampleBase
 		// Remove current MODELVIEW Matrix from
 		// stack.
 		GL11.glPopMatrix();
+		
+		GL11.glDisable(GL11.GL_LIGHTING);
+		GL11.glDisable(GL11.GL_LIGHT0);
+		GL11.glDisable(GL11.GL_COLOR_MATERIAL);
+		GL11.glDisable(GL11.GL_NORMALIZE);
 	}
-	
-	
+
 	public void grabMouse(){
 		
 		while(Mouse.next()){
@@ -253,7 +169,29 @@ public class DisplayListExample extends LwjglExampleBase
 				if(Zoom < 0) Zoom = 0;
 				if(Zoom > 20) Zoom = 20;
 			}
+			if(Mouse.isButtonDown(1) == true){
+				rotZ += Mouse.getDX();
+			}
 		}
+	}
+	
+	boolean backward = false;
+	
+	public void keyboardListener(){
+		
+		if(Keyboard.isKeyDown(Keyboard.KEY_W) == true){
+			
+			if(backward == false){rot += 5f;}
+			
+			if(rot >= 50f){backward = true;}
+			
+			if(backward == true){rot -= 5f;}
+			
+			if(rot <= -50f){backward = false;}			
+		}
+	
+		System.out.println(backward);
+		
 	}
 	
 	public static float getZoom(){

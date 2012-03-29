@@ -39,6 +39,7 @@ public abstract class LwjglExampleBase
 		{
 			Display.setDisplayMode(new DisplayMode(viewportWidth, viewportHeight));
 			Display.create();
+			Display.setVSyncEnabled(true);
 		}
 		catch (LWJGLException e) {
 			e.printStackTrace();
@@ -46,6 +47,10 @@ public abstract class LwjglExampleBase
 		}
  
 		// init viewport and projection matrix
+	
+		glClearColor (.8f, .9f, 1f, 0f);
+			GL11.glEnable(GL11.GL_BLEND);
+			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		glViewport(0, 0, viewportWidth, viewportHeight);
 		glMatrixMode(GL11.GL_PROJECTION);
 		glLoadIdentity();
@@ -54,7 +59,7 @@ public abstract class LwjglExampleBase
  
 		glEnable(GL_DEPTH_TEST);
 		glShadeModel (GL_SMOOTH);
-		glClearColor (.8f, .9f, 1f, 0f);
+
 	}
  
 	/**
@@ -75,8 +80,12 @@ public abstract class LwjglExampleBase
  
                         // call the abstract render method implemented by the
                         // extending class (eg. example, tutorial, etc.)
+			
 			render(); 
 			grabMouse();
+			keyboardListener();
+			//GL11.glTranslatef(1f, 0, 0);
+			//DisplayListExample.drawKirby();
 
                         // sync to 60 frames per second
 			Display.update();
@@ -93,6 +102,7 @@ public abstract class LwjglExampleBase
          */
 	public abstract void render();
 	public abstract void grabMouse();
+	public abstract void keyboardListener();
  
 	public int getViewportWidth() {
 		return viewportWidth;
