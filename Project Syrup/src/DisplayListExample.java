@@ -11,9 +11,11 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.Sphere;
-import org.newdawn.slick.opengl.Texture;
-import org.newdawn.slick.opengl.TextureLoader;
-import org.newdawn.slick.util.ResourceLoader;
+//import org.newdawn.slick.opengl.Texture;
+//import org.newdawn.slick.opengl.TextureLoader;
+//import org.newdawn.slick.util.ResourceLoader;
+
+import engine.Entity;
 
 public class DisplayListExample extends LwjglExampleBase
 {
@@ -31,17 +33,18 @@ public class DisplayListExample extends LwjglExampleBase
 	float rotX = 0.0f, rotY = 0.0f, rotZ = 0.0f;
 	
 	static float Zoom = 0f;
+	EntityKirby kirb = new EntityKirby(0,0,0);
 	
 	public void setUp() 
 	{
 		// Set up LWJGL and OpenGL using the
 		// base class.
 		super.setUp();
-
+		
 		// Generate one (!) display list.
 		// The handle is used to identify the
 		// list later.
-		displayListHandle = GL11.glGenLists(1);
+		/*displayListHandle = GL11.glGenLists(1);
 
 		// Start recording the new display list.
 		GL11.glNewList(displayListHandle, GL11.GL_COMPILE);
@@ -50,7 +53,7 @@ public class DisplayListExample extends LwjglExampleBase
 		drawKirby();
 
 		// End the recording of the current display list.
-		GL11.glEndList();
+		GL11.glEndList();*/
 	}
 
 	private static float rot = 0f;
@@ -137,7 +140,7 @@ public class DisplayListExample extends LwjglExampleBase
 		GL11.glPushMatrix();
 		
 		//x
-		GL11.glRotatef(rotX, 1, 0, 0);
+		/*GL11.glRotatef(rotX, 1, 0, 0);
 		//y
 		GL11.glRotatef(rotY, 0f,1f,0f);
 		//z
@@ -145,8 +148,9 @@ public class DisplayListExample extends LwjglExampleBase
 
 		// Call the display list which renders
 		// the cube.
-		GL11.glCallList(displayListHandle);
-
+		GL11.glCallList(displayListHandle);*/
+		Entity.RenderTick();
+		kirb.setRotation(rotX, rotY, rotZ);
 		// Remove current MODELVIEW Matrix from
 		// stack.
 		GL11.glPopMatrix();
