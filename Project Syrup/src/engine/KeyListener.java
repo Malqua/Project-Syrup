@@ -12,10 +12,10 @@ public abstract class KeyListener {
 	}
 	
 	public static void Tick(){
-	Integer[] x = (Integer[]) keyMap.keySet().toArray();
+	Object[] x = keyMap.keySet().toArray();
 	for(int y = 0;y<x.length;y++){
-		if(Keyboard.isKeyDown(x[y])){
-			keyMap.get(x[y]).keyPressed(x[y]);
+		if(Keyboard.isKeyDown(Integer.parseInt(x[y].toString()))){
+			keyMap.get(x[y]).keyPressed(Integer.parseInt(x[y].toString()));
 		}
 	}
 	}

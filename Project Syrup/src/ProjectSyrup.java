@@ -1,3 +1,6 @@
+import org.lwjgl.input.Keyboard;
+
+import engine.KeyListener;
 import engine.Rendering;
 
 public class ProjectSyrup {
