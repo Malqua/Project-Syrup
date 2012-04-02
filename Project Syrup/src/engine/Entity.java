@@ -30,11 +30,11 @@ public class Entity {
 		for(int i = 0;i<Entity.EntityList.size();i++){
 			Entity ent = Entity.EntityList.get(i);
 			GL11.glPushMatrix();
-			GL11.glTranslatef(ent.position.x, ent.position.y, ent.position.z);
+			//GL11.glTranslatef(ent.position.x, ent.position.y, ent.position.z);
 			GL11.glRotatef(ent.rotation.x, 1f,0f,0f);
 			GL11.glRotatef(ent.rotation.y, 0f,1f,0f);
 			GL11.glRotatef(ent.rotation.z, 0f,0f,1f);
-			GL11.glTranslatef(-ent.position.x, -ent.position.y, -ent.position.z);
+			//GL11.glTranslatef(-ent.position.x, -ent.position.y, -ent.position.z);
 			ent.Render();
 			GL11.glPopMatrix();
 		}

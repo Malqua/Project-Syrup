@@ -16,6 +16,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
+import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
@@ -23,6 +24,14 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
 
 public class Rendering implements Runnable{
+	/** time at last frame */
+	long lastFrame;
+ 
+	/** frames per second */
+	int fps;
+	/** last fps time */
+	long lastFPS;
+	
 	public void run(){
 		try{
 			Display.setDisplayMode(new DisplayMode(800,600));
@@ -31,12 +40,16 @@ public class Rendering implements Runnable{
 			Display.setFullscreen(true);
 			Camera.setCurrentCamera(new Camera(0, 2, 0, 0,0,0));
 			initGL();
+			getDelta(); // call once before loop to initialise lastFrame
+			lastFPS = getTime(); // call before loop to initialise fps timer
 			while(!Display.isCloseRequested() && !Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)){
 				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 				glLoadIdentity();
 				Camera.Tick();
 				KeyListener.Tick();
+				MouseListener.Tick();
 				renderTick();
+				updateFPS();
 				Display.sync(60);
 				Display.update();
 			}
@@ -79,4 +92,28 @@ public class Rendering implements Runnable{
 		glEnable(GL_DEPTH_TEST);
 		glShadeModel (GL_SMOOTH);
 	}
+	
+	/** tutorial shit **/
+	
+	public long getTime() {
+	    return (Sys.getTime() * 1000) / Sys.getTimerResolution();
+	}
+	
+	public int getDelta() {
+	    long time = getTime();
+	    int delta = (int) (time - lastFrame);
+	    lastFrame = time;
+	 
+	    return delta;
+	}
+	
+	public void updateFPS() {
+	    if (getTime() - lastFPS > 1000) {
+	        Display.setTitle("FPS: " + fps);
+		fps = 0;
+		lastFPS += 1000;
+	    }
+	    fps++;
+	}
+	
 }
