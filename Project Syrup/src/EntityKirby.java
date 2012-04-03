@@ -2,7 +2,6 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.Sphere;
 
 import engine.Entity;
-import engine.Rendering;
 
 
 public class EntityKirby extends Entity{

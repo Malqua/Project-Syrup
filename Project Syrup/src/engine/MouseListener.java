@@ -1,7 +1,5 @@
 package engine;
 
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
 import java.util.HashMap;
 import java.util.Map;
 
