@@ -4,14 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.Color;
 
 public class Entity {
 	public static List<Entity> EntityList = new ArrayList<Entity>();
 	
 	public Vector3D position;
 	//public Vector3D size;
-	public Vector3D rotation;
-	
+	public Vector3D rotation;	
+
 	public Entity(float posx, float posy, float posz){
 		this(posx, posy, posz, 0, 0, 0);
 	}
@@ -21,7 +22,7 @@ public class Entity {
 		position = new Vector3D(posx, posy, posz);
 		rotation = new Vector3D(rotx, roty, rotz);
 	}
-	
+
 	public void Destroy(){
 		Entity.EntityList.remove(this);
 	}

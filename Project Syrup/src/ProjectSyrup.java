@@ -1,8 +1,3 @@
-import java.awt.MouseInfo;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
-
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
@@ -17,19 +12,11 @@ public class ProjectSyrup {
 	static float rotY = 0f;
 	static float rotZ = 0f;
 	
-	static int Zoom = 0;
-	
 	public static void main(String[] argv){
 		final EntityKirby kirb = new EntityKirby(1,1,1);
 		Rendering r = new Rendering();
 		Thread t = new Thread(r);
 		t.start();
-		
-		for(int i = 0; i < Mouse.getButtonCount(); i++) {
-			  if(Mouse.isButtonDown(i)) {
-			    System.out.println("button pressed: " + i);
-			  }
-			}
 		
 		MouseListener.regButton(0, new MouseListener(){
 
@@ -38,6 +25,18 @@ public class ProjectSyrup {
 				rotY += Mouse.getDX();
 				
 				kirb.setRotation(rotX, rotY, rotZ);
+				
+				if(Mouse.isInsideWindow() == true){
+					Rendering.Zoom += Mouse.getDWheel() / 120;
+					if(Rendering.Zoom < -10){
+						Rendering.Zoom = -10;
+					}
+					if(Rendering.Zoom > 0){
+						Rendering.Zoom = 0;
+					}
+					
+					Camera.getCurrentCamera().setPosition(0, 2 - Rendering.Zoom, 0);
+				}
 			}
 		});
 		
@@ -93,5 +92,61 @@ public class ProjectSyrup {
 				kirb.setRotation(rotX, rotY, rotZ);
 			}
 		});
+		
+		KeyListener.registerKey(Keyboard.KEY_R, new KeyListener(){
+			public void keyPressed(int keyID){
+				kirb.setBodyColor(0f, -.5f, -.5f);
+				kirb.setShoeColor(-.5f, -.1f, -.1f);
+				
+			}
+		});
+		KeyListener.registerKey(Keyboard.KEY_G, new KeyListener(){
+			public void keyPressed(int keyID){
+				kirb.setBodyColor(-.2f, 1f, -.2f);
+				kirb.setShoeColor(-.8f, 0.5f, -.1f);
+			}
+		});
+		KeyListener.registerKey(Keyboard.KEY_B, new KeyListener(){
+			public void keyPressed(int keyID){
+				kirb.setBodyColor(-.5f, -.1f, 1f);
+				kirb.setShoeColor(-1f, 0f, .7f);
+			}
+		});
+		KeyListener.registerKey(Keyboard.KEY_P, new KeyListener(){
+			public void keyPressed(int keyID){
+				kirb.setBodyColor(0f, 0f, 0f);
+				kirb.setShoeColor(0f, 0f, 0f);
+			}
+		});
+		KeyListener.registerKey(Keyboard.KEY_O, new KeyListener(){
+			public void keyPressed(int keyID){
+				kirb.setBodyColor(0f, 0f, -.6f);
+				kirb.setShoeColor(-.6f, 0.1f, -.1f);
+			}
+		});
+		KeyListener.registerKey(Keyboard.KEY_I, new KeyListener(){
+			public void keyPressed(int keyID){
+				kirb.setBodyColor(-.2f, -.4f, .4f);
+				kirb.setShoeColor(-.8f, -.1f, .3f);
+			}
+		});
+		KeyListener.registerKey(Keyboard.KEY_K, new KeyListener(){
+			public void keyPressed(int keyID){
+				kirb.setBodyColor(0f, .4f, .4f);
+				kirb.setShoeColor(-.6f, .3f, .3f);
+			}
+		});
+		KeyListener.registerKey(Keyboard.KEY_Y, new KeyListener(){
+			public void keyPressed(int keyID){
+				kirb.setBodyColor(0f, .4f, -.6f);
+				kirb.setShoeColor(-.4f, .3f, -.1f);
+			}
+		});
+		KeyListener.registerKey(Keyboard.KEY_U, new KeyListener(){
+			public void keyPressed(int keyID){
+				kirb.setBodyColor(Rendering.RainbowR, Rendering.RainbowG, Rendering.RainbowB);
+				kirb.setShoeColor(Rendering.RainbowR, Rendering.RainbowG, Rendering.RainbowB);
+			}
+		});		
 	}
 }

@@ -18,6 +18,7 @@ import java.nio.FloatBuffer;
 
 import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
@@ -31,6 +32,11 @@ public class Rendering implements Runnable{
 	int fps;
 	/** last fps time */
 	long lastFPS;
+	
+	public static int Zoom = 0;
+	public static float RainbowR = -1f;
+	public static float RainbowG = -1f;
+	public static float RainbowB = -1f;
 	
 	public void run(){
 		try{
@@ -48,6 +54,21 @@ public class Rendering implements Runnable{
 				Camera.Tick();
 				KeyListener.Tick();
 				MouseListener.Tick();
+				
+				//Trip Mode!
+				RainbowR +=0.05f;
+				RainbowG +=0.1f;
+				RainbowB +=0.15f;
+				if(RainbowR > 1f){
+					RainbowR = -1f;
+				}
+				if(RainbowG > 1f){
+					RainbowG = -1f;
+				}
+				if(RainbowB > 1f){
+					RainbowB = -1f;
+				}
+				
 				renderTick();
 				updateFPS();
 				Display.sync(60);

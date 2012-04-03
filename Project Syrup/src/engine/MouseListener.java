@@ -16,12 +16,14 @@ public abstract class MouseListener{
 	}
 	
 	public static void Tick(){
-	Object[] x = buttonMap.keySet().toArray();
-	for(int y = 0;y<x.length;y++){
-		if(Mouse.isButtonDown(Integer.parseInt(x[y].toString()))){
-			buttonMap.get(x[y]).buttonPressed(Integer.parseInt(x[y].toString()));
+		Object[] x = buttonMap.keySet().toArray();
+		for(int y = 0;y<x.length;y++)
+		{
+			if(Mouse.isButtonDown(Integer.parseInt(x[y].toString())))
+			{
+				buttonMap.get(x[y]).buttonPressed(Integer.parseInt(x[y].toString()));
+			}
 		}
-	}
 	}
 	
 	public static void regButton(int mouseID, MouseListener ml)
