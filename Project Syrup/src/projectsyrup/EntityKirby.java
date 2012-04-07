@@ -1,3 +1,4 @@
+package projectsyrup;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.Sphere;
 

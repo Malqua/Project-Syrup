@@ -23,6 +23,9 @@ import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
 
+import projectsyrup.KL2;
+import projectsyrup.ProjectSyrup;
+
 public class Rendering implements Runnable{
 	/** time at last frame */
 	long lastFrame;
@@ -53,7 +56,7 @@ public class Rendering implements Runnable{
 				Camera.Tick();
 				KeyListener.Tick();
 				MouseListener.Tick();
-				
+				KL2.tick();
 				//Trip Mode!
 				RainbowR +=0.05f;
 				RainbowG +=0.1f;
@@ -67,7 +70,11 @@ public class Rendering implements Runnable{
 				if(RainbowB > 1f){
 					RainbowB = -1f;
 				}
-				
+				if(KL2.Rainbow == true){
+				ProjectSyrup.getKirby().setBodyColor(Rendering.RainbowR, Rendering.RainbowG, Rendering.RainbowB);
+				ProjectSyrup.getKirby().setShoeColor(Rendering.RainbowR, Rendering.RainbowG, Rendering.RainbowB);
+				}
+				// -- //
 				renderTick();
 				updateFPS();
 				Display.sync(60);
