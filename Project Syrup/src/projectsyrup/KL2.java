@@ -1,8 +1,6 @@
 package projectsyrup;
 import org.lwjgl.input.Keyboard;
 
-import engine.Rendering;
-
 public class KL2{
 	
 	public static boolean Rainbow = false;
@@ -20,7 +18,7 @@ public class KL2{
 					}else{
 						Rainbow = false;
 					}
-					System.out.println(Rainbow);
+					//System.out.println(Rainbow);
 				}
 			}
 		}

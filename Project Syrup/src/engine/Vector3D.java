@@ -1,9 +1,9 @@
 package engine;
 /* medsouz */
 public class Vector3D {
-	float x;
-	float y;
-	float z;
+	public float x;
+	public float y;
+	public float z;
 	
 	public Vector3D(float x1, float y1, float z1){
 		x = x1;

@@ -2,9 +2,6 @@ package projectsyrup;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
-import projectsyrup.*;
-
-import engine.Camera;
 import engine.KeyListener;
 import engine.MouseListener;
 import engine.Rendering;
@@ -14,7 +11,7 @@ public class ProjectSyrup {
 	static float rotX = 0f;
 	static float rotY = 0f;
 	static float rotZ = 0f;
-	public static EntityKirby kirbo = new EntityKirby(1,1,1);
+	public static EntityKirby kirbo = new EntityKirby(10,10,10);
 	
 	/*
 	public static void makeKirby(int i, int j, int k){
@@ -28,6 +25,7 @@ public class ProjectSyrup {
 	public static void main(String[] argv){
 		//makeKirby(1,1,1);
 		//final EntityKirby kirb = new EntityKirby(1,1,1);
+		final EntityTeapot tea = new EntityTeapot(1,1,1);
 		Rendering r = new Rendering();
 		Thread t = new Thread(r);
 		t.start();
@@ -38,7 +36,7 @@ public class ProjectSyrup {
 				rotX += Mouse.getDY();
 				rotY += Mouse.getDX();
 				
-				getKirby().setRotation(rotX, rotY, rotZ);
+				tea.setRotation(rotX, rotY, rotZ);
 
 				if(Mouse.isInsideWindow() == true){
 					Rendering.Zoom += Mouse.getDWheel() / 120;
@@ -49,7 +47,7 @@ public class ProjectSyrup {
 						Rendering.Zoom = 0;
 					}
 
-					Camera.getCurrentCamera().setPosition(0, 2 - Rendering.Zoom, 0);
+					//Camera.getCurrentCamera().setPosition(0, 2 - Rendering.Zoom, 0);
 				}
 			}
 		});
