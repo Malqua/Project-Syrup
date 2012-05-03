@@ -1,8 +1,9 @@
 package projectsyrup;
+
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.Sphere;
-
 import engine.Entity;
+import engine.assets.OBJLoader;
 
 
 public class EntityKirby extends Entity{
@@ -12,6 +13,13 @@ public class EntityKirby extends Entity{
 	public EntityKirby(int posx, int posy, int posz) {
 		super(posx, posy, posz);
 	}
+	
+	
+	//OBJLoader k = new OBJLoader("src/engine/assets/Kirby.obj");
+	
+	//public void Render(){
+	//	k.render();
+	//}
 	
 	public void Render(){
 		Sphere sphere = new Sphere();
